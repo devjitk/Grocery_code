@@ -1,0 +1,17 @@
+#import libaries
+
+import urllib.request, json 
+from collections import defaultdict
+    
+#pull the flyer and get the json    
+with urllib.request.urlopen("https://backflipp.wishabi.com/flipp/items/search?locale=en-ca&postal_code=m5b2r2&q=metro") as url:
+    data = json.loads(url.read().decode())
+
+
+    
+#iterate and print each item
+for i in range(0,6):
+    for key, value in data["items"][i].items():
+        print(key, value)
+        
+ #need to scrape out the values for name, _L2,name, current price, merchant, valid from and to, post_price_text 
