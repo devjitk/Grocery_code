@@ -1,1 +1,46 @@
+#import libaries
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+from ipykernel import kernelapp as app
+import warnings
+warnings.filterwarnings("ignore")
+import re
+import urllib.request, json 
+from collections import defaultdict
+
+
+#pull the flyer and get the json    
+with urllib.request.urlopen("https://backflipp.wishabi.com/flipp/items/search?locale=en-ca&postal_code=m5b2r2&q=metro") as url:
+    data = json.loads(url.read().decode())
+    
+#create the dataframe    
+df_test = pd.DataFrame.from_dict(data, orient='index')
+
+#remove the top of page garbage
+df_new = df_test.iloc[5:6]
+df_new = df_new.values.T.tolist()
+
+#the data is a list within a list, we simplify to just one list (remove the outer list)
+flat_list = []
+for dic in df_new:
+    for item in dic:
+        flat_list.append(item)
+        
+flat_list
+
+df_test2 = pd.DataFrame.from_dict(flat_list)
+df_test2
+
+#trim down the dataframe to something smaller
+df = pd.DataFrame(df_test2, columns = ['flyer_item_id','name','current_price','pre_price_text','merchant_name','_L2']) 
+
+
+
+
 
